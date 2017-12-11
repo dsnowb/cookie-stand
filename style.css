@@ -1,29 +1,49 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 header {
   margin: 0 auto 30px auto;
   text-align: center;
-  background-color: #323232;
-  color: #fff;
+  background-color: #4e2422;
+}
+
+header .logo {
+  padding: 20px 0;
 }
 
 header h1 {
   font-size: 48px;
   font-weight: bold;
+  color: #ab9c73;
 }
 
-header h2 {
+main {
+  margin: 0 auto;
+  width: 960px;
+}
+
+main h2 {
+  margin: 20px auto;
+  text-align: center;
   font-size: 36px;
   font-weight: bold;
+  color: #444;
 }
 
 .ulp {
+  font-family: Helvetica;
   font-weight: bold;
   text-decoration: underline;
 }
 
 ul {
+  font-family: Helvetica;
   margin-bottom: 30px;
 }
 
 ul li {
   list-style-type: '-';
+}
+
+.highlight {
+  font-family: Roboto;
 }
