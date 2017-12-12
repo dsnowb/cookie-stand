@@ -13,11 +13,11 @@ header {
 }
 
 header img {
-  margin-top: 50px;
+  display: block;
+  margin-bottom: 30px;
 }
 
 header h1 {
-  margin-top: 30px;
   font-size: 48px;
   font-weight: bold;
   color: #ab9c73;
@@ -42,7 +42,6 @@ main section:last-child {
 main h2 {
   margin: 20px auto;
   text-align: center;
-  font-family: Roboto;
   font-size: 36px;
   font-weight: bold;
   text-decoration: underline;
@@ -50,28 +49,34 @@ main h2 {
 }
 
 footer {
+  bottom: 0px;
   width: 960px;
   margin: 0 auto;
   padding: 10px 0;
-  text-align: center;
   background-color: #4e2422;
-  font-family: Times, serif;
-  color: #ac9d74;
-}
-
-ul {
-  margin-bottom: 30px;
   text-align: center;
-  font-family: Helvetica;
+  color: #ac9d74;
+  font-family: Times, serif;
 }
 
-ul p {
+.ulp {
+  font-family: Helvetica;
   font-weight: bold;
   text-decoration: underline;
 }
 
+ul {
+  text-align: center;
+  font-family: Helvetica;
+  margin-bottom: 30px;
+}
+
 ul li {
   list-style-type: '-';
+}
+
+.highlight {
+  font-family: Roboto;
 }
 
 a {
@@ -80,4 +85,12 @@ a {
 
 a:hover {
   color: #ab9c73;
+}
+
+table {
+  border: 1px solid red;
+}
+
+td {
+  border: 1px solid black;
 }

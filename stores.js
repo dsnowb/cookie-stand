@@ -5,13 +5,13 @@
 //number of customers, maximum number of customers, average cookies per customer]
 //*******************************************************************************************************************
 var arrStoreData = [  ['1st and Pike', 6, 20, 23, 65, 6.3],
-                      ['SeaTac Airport', 5, 20, 3, 24, 1.2],
+                      ['SeaTac Airport', 6, 20, 3, 24, 1.2],
                       ['Seattle Center', 6, 20, 11, 38, 3.7],
                       ['Capitol Hill', 6, 20, 20, 38, 2.3],
                       ['Alki', 6, 20, 2, 16, 4.6] ];
 
 //The earliest and latest store hours among all locations
-var earlyHour = 5;
+var earlyHour = 6;
 var lateHour = 20;
 
 //Global helper functions
