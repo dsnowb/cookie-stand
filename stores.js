@@ -4,7 +4,8 @@
 //{{{
 var store1 = {
 
-  //member data
+//MEMBER DATA
+//*********************************************************************************************************************
   storeLocale: '1st and Pike',
   hourOpen: 6,
   hourClose: 20,
@@ -13,11 +14,15 @@ var store1 = {
   cookiesPerCust: 6.3,
   estCookiesPerHour: [],
 
-  //methods
+//METHODS
+//*********************************************************************************************************************
+
+  //Generates a random value between minCustomers and maxCustomers, inclusive
   genCustPerHour: function() {
     return Math.round(Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers);
   },
 
+  //Converts from military time to standard time
   hourToStd: function(hour) {
     if (hour < 12) hour += 'am';
     else if (hour === 12) hour += 'pm';
@@ -28,6 +33,9 @@ var store1 = {
     return hour;
   },
 
+  //Uses genCustPerHour() to generate a random number of cookies sold for each hour of operation, then returns an array containing two elements
+  //First element: a given hour of operation
+  //Second element: the randomly generated number of cookies purchases for that hour
   genEstCookiesPerHour: function() {
     for (var i = 0; i <= this.hourClose - this.hourOpen; i++)
       this.estCookiesPerHour.push([this.hourToStd(this.hourOpen + i), Math.round(this.genCustPerHour() * this.cookiesPerCust)]);
@@ -35,6 +43,8 @@ var store1 = {
     return this.estCookiesPerHour;
   },
 
+  //Prints an unordered list to the first element tagged 'main' in the DOM. The UL is given a title of storeLocale, followed by a
+  //formatted version of the current values in the estCookiesPerHour array
   printSales: function() {
     var ul = document.createElement('ul');
     var list = '';
