@@ -2,14 +2,9 @@
 
 'use strict';
 
-//Generates a random number of cookies purchased per hour of store operation, then prints that information for each location
-
-//Create headernew Store(arrStoreData[i][0], arrStoreData[i][1], arrStor for sales table
-//need to turn tr into th without screwing up formatting. add tbody?
+//Create a <th> header for sales table
 var tbEl = document.getElementById('sales_table');
-
 var thEl = document.createElement('th');
-
 tbEl.appendChild(thEl);
 
 for (var i = earlyHour; i < lateHour; i++) {
@@ -22,19 +17,21 @@ thEl = document.createElement('th');
 thEl.textContent = 'Daily Total';
 tbEl.appendChild(thEl);
 
-//Fill table rows
+//Fill sales table rows
 for (var i = 0; i < arrStores.length; i++) {
   arrStores[i].genEstCookiesPerHour();
   arrStores[i].renderSalesRow();
 }
 
-//Get totals for all stores for each hour
+//Totals rows
 var trEl = document.createElement('tr');
 
+//Create header for totals row
 thEl = document.createElement('th');
 thEl.textContent = 'All Stores: ';
 trEl.appendChild(thEl);
 
+//Fill totals row <td>'s
 var tdEl;
 for (var i = 0; i < lateHour - earlyHour; i++) {
   var totCookiesPerHour = 0;
@@ -47,6 +44,7 @@ for (var i = 0; i < lateHour - earlyHour; i++) {
   trEl.appendChild(tdEl);
 }
 
+//Calculate the daily total for all stores and append to total's row as its last <td>
 var totalCookies = 0;
 for (var i = 0; i < arrStores.length; i++) totalCookies += arrStores[i].estTotalCookies;
 
@@ -54,4 +52,5 @@ tdEl = document.createElement('td');
 tdEl.textContent = totalCookies;
 trEl.appendChild(tdEl);
 
+//Append totals row to sales table
 tbEl.appendChild(trEl);

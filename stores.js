@@ -32,10 +32,9 @@ var random = function(min,max) {
   return Math.round(Math.random() * (max - min) + min);
 };
 
-//store object properties
+//Store constructor function
 //*******************************************************************************************************************
 function Store(locale,hrOpen,hrClose,minCust,maxCust,cookiePerHr) {
-
   this.storeLocale = locale;
   this.hourOpen = hrOpen;
   this.hourClose = hrClose;
@@ -46,41 +45,46 @@ function Store(locale,hrOpen,hrClose,minCust,maxCust,cookiePerHr) {
   this.estTotalCookies = 0;
 }
 
-//store object prototype methods
+//Store prototype methods
 //*******************************************************************************************************************
-//Uses genCustPerHour() to generate a random number of cookies sold for each hour of operation, fills the estCookiesPerHour
-//array with two elements. First: a given hour of operation. Second: the randomly generated number of cookies purchases for
+//Generates a random number of cookies sold for each hour of operation, fills the estCookiesPerHour array with two elements.
+//First: a given hour of operation. Second: the randomly generated number of cookies purchases for
 //that hour. Finally, it provides a total number of cookies purchased for the day.
 Store.prototype.genEstCookiesPerHour = function() {
+  //Create blank array
   for (var i = 0; i < lateHour - earlyHour; i++)
     this.estCookiesPerHour.push([earlyHour + i,0]);
+  //Load applicable array elements
   for (var i = 0; i < this.hourClose - this.hourOpen; i++) {
     this.estCookiesPerHour[this.hourOpen - earlyHour + i][1] = Math.round(random(this.minCustomers,this.maxCustomers) * this.cookiesPerCust);
     this.estTotalCookies += this.estCookiesPerHour[this.hourOpen - earlyHour + i][1];
   }
 };
 
-//Prints an unordered list to the first element tagged 'main' in the DOM. The UL is given a title of storeLocale,
-//followed by a formatted version of the current values in the estCookiesPerHour array
+//Generates a table row including the Store.storeLocale as a <th> header for the row, followed by cookie totals for each hour,
+//followed by Store.estTotalCookies as the final <td> in the row as a daily cookie total
 Store.prototype.renderSalesRow = function() {
+  //Create <th> header for row
   var trEl = document.createElement('tr');
   var thEl = document.createElement('th');
   thEl.textContent = this.storeLocale;
   trEl.appendChild(thEl);
 
+  //Generate <td>'s with the store's hourly cookie totals
   for (var i = 0; i < lateHour - earlyHour; i++) {
     var tdEl = document.createElement('td');
     tdEl.textContent = this.estCookiesPerHour[i][1];
     trEl.appendChild(tdEl);
   }
-
+  //Create the daily total <td>
   tdEl = document.createElement('td');
   tdEl.textContent = this.estTotalCookies;
   trEl.appendChild(tdEl);
+  //Append the row to the table with id attribute 'sales_table
   document.getElementById('sales_table').appendChild(trEl);
 };
 
-//generate store objects and put them into array for use by associated scripts
+//Generate store objects and put them into array for use by associated scripts
 //*******************************************************************************************************************
 var arrStores = [];
 for (var i = 0; i < arrStoreData.length; i++)
