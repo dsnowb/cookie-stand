@@ -27,6 +27,7 @@ main h2 {
   text-align: center;
   font-size: 36px;
   font-weight: bold;
+  text-decoration: underline;
   color: #444;
 }
 
@@ -37,7 +38,7 @@ main h2 {
 }
 
 ul {
-  text-align: left;
+  text-align: center;
   font-family: Helvetica;
   margin-bottom: 30px;
 }

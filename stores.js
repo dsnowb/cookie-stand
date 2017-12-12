@@ -15,12 +15,12 @@ var store1 = {
 
   //methods
   genCustPerHour: function() {
-    return Math.round(Math.random() * (this.maxCustomers-this.minCustomers) + this.minCustomers);
+    return Math.round(Math.random() * (this.maxCustomers - this.minCustomers) + this.minCustomers);
   },
 
   hourToStd: function(hour) {
-    if (hour < 12) hour+='am';
-    else if (hour === 12) hour +='pm';
+    if (hour < 12) hour += 'am';
+    else if (hour === 12) hour += 'pm';
     else {
       hour -= 12;
       hour += 'pm';
@@ -30,7 +30,7 @@ var store1 = {
 
   genEstCookiesPerHour: function() {
     for (var i = 0; i <= this.hourClose - this.hourOpen; i++)
-      this.estCookiesPerHour.push([this.hourToStd(this.hourOpen+i), Math.round(this.genCustPerHour()*this.cookiesPerCust)]);
+      this.estCookiesPerHour.push([this.hourToStd(this.hourOpen + i), Math.round(this.genCustPerHour() * this.cookiesPerCust)]);
 
     return this.estCookiesPerHour;
   },
