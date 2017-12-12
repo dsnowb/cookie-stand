@@ -17,6 +17,7 @@ header h1 {
 }
 
 main {
+  text-align: center;
   margin: 0 auto;
   width: 960px;
 }
@@ -36,6 +37,7 @@ main h2 {
 }
 
 ul {
+  text-align: left;
   font-family: Helvetica;
   margin-bottom: 30px;
 }
