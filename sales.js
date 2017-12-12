@@ -4,7 +4,7 @@
 
 //Generates a random number of cookies purchased per hour of store operation, then prints that information for each location
 
-//Create header for sales table
+//Create headernew Store(arrStoreData[i][0], arrStoreData[i][1], arrStor for sales table
 //need to turn tr into th without screwing up formatting. add tbody?
 var tbEl = document.getElementById('sales_table');
 
@@ -48,7 +48,7 @@ for (var i = 0; i < lateHour - earlyHour; i++) {
 }
 
 var totalCookies = 0;
-for (var i = 0; i < arrStores.length; i++) totalCookies+=arrStores[i].estTotalCookies;
+for (var i = 0; i < arrStores.length; i++) totalCookies += arrStores[i].estTotalCookies;
 
 tdEl = document.createElement('td');
 tdEl.textContent = totalCookies;

@@ -18,19 +18,19 @@ var lateHour = 20;
 //*******************************************************************************************************************
 //Converts from military time to standard time
 var hourToStd = function(hour) {
-    if (hour < 12) hour += 'am';
-    else if (hour === 12) hour += 'pm';
-    else {
-      hour -= 12;
-      hour += 'pm';
-    }
-    return hour;
-}
+  if (hour < 12) hour += 'am';
+  else if (hour === 12) hour += 'pm';
+  else {
+    hour -= 12;
+    hour += 'pm';
+  }
+  return hour;
+};
 
 //Generates a random integer between min and max, inclusive
 var random = function(min,max) {
-    return Math.round(Math.random() * (max - min) + min);
-}
+  return Math.round(Math.random() * (max - min) + min);
+};
 
 //store object properties
 //*******************************************************************************************************************
@@ -52,34 +52,33 @@ function Store(locale,hrOpen,hrClose,minCust,maxCust,cookiePerHr) {
 //array with two elements. First: a given hour of operation. Second: the randomly generated number of cookies purchases for
 //that hour. Finally, it provides a total number of cookies purchased for the day.
 Store.prototype.genEstCookiesPerHour = function() {
-    for (var i = 0; i < lateHour-earlyHour; i++)
-      this.estCookiesPerHour.push([earlyHour+i,0]);
-    for (var i = 0; i < this.hourClose - this.hourOpen; i++) {
-      this.estCookiesPerHour[this.hourOpen-earlyHour+i][1] = Math.round(random(this.minCustomers,this.maxCustomers) * this.cookiesPerCust);
-      this.estTotalCookies += this.estCookiesPerHour[this.hourOpen-earlyHour+i][1];
-    }
-}
+  for (var i = 0; i < lateHour - earlyHour; i++)
+    this.estCookiesPerHour.push([earlyHour + i,0]);
+  for (var i = 0; i < this.hourClose - this.hourOpen; i++) {
+    this.estCookiesPerHour[this.hourOpen - earlyHour + i][1] = Math.round(random(this.minCustomers,this.maxCustomers) * this.cookiesPerCust);
+    this.estTotalCookies += this.estCookiesPerHour[this.hourOpen - earlyHour + i][1];
+  }
+};
 
 //Prints an unordered list to the first element tagged 'main' in the DOM. The UL is given a title of storeLocale,
 //followed by a formatted version of the current values in the estCookiesPerHour array
 Store.prototype.renderSalesRow = function() {
-    var trEl = document.createElement('tr');
-    var thEl = document.createElement('th');
-    thEl.textContent = this.storeLocale;
-    trEl.appendChild(thEl);
+  var trEl = document.createElement('tr');
+  var thEl = document.createElement('th');
+  thEl.textContent = this.storeLocale;
+  trEl.appendChild(thEl);
 
-    for (var i = 0; i < lateHour-earlyHour; i++) {
-      var tdEl = document.createElement('td');
-      tdEl.textContent = this.estCookiesPerHour[i][1];
-      trEl.appendChild(tdEl);
-    }
-
-    tdEl = document.createElement('td');
-    tdEl.textContent = this.estTotalCookies;
+  for (var i = 0; i < lateHour - earlyHour; i++) {
+    var tdEl = document.createElement('td');
+    tdEl.textContent = this.estCookiesPerHour[i][1];
     trEl.appendChild(tdEl);
+  }
 
-    document.getElementById('sales_table').appendChild(trEl);
-}
+  tdEl = document.createElement('td');
+  tdEl.textContent = this.estTotalCookies;
+  trEl.appendChild(tdEl);
+  document.getElementById('sales_table').appendChild(trEl);
+};
 
 //generate store objects and put them into array for use by associated scripts
 //*******************************************************************************************************************
