@@ -6,19 +6,20 @@
 
 //Create header for sales table
 //need to turn tr into th without screwing up formatting. add tbody?
-var thEl = document.createElement('tr');
-var tdEl;
+var tbEl = document.getElementById('sales_table');
+
+var thEl = document.createElement('th');
+
+tbEl.appendChild(thEl);
+
 for (var i = earlyHour; i < lateHour; i++) {
-  tdEl = document.createElement('td');
-  tdEl.textContent = hourToStd(i);
-  thEl.appendChild(tdEl);
+  thEl = document.createElement('th');
+  thEl.textContent = hourToStd(i);
+  tbEl.appendChild(thEl);
 }
 
-tdEl = document.createElement('td');
-tdEl.textContent = 'Daily Total';
-thEl.appendChild(tdEl);
-
-var tbEl = document.getElementById('sales_table');
+thEl = document.createElement('th');
+thEl.textContent = 'Daily Total';
 tbEl.appendChild(thEl);
 
 //Fill table rows
@@ -29,6 +30,12 @@ for (var i = 0; i < arrStores.length; i++) {
 
 //Get totals for all stores for each hour
 var trEl = document.createElement('tr');
+
+thEl = document.createElement('th');
+thEl.textContent = 'All Stores: ';
+trEl.appendChild(thEl);
+
+var tdEl;
 for (var i = 0; i < lateHour - earlyHour; i++) {
   var totCookiesPerHour = 0;
   for (var j = 0; j < arrStores.length; j++) {

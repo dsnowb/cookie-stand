@@ -53,9 +53,9 @@ function Store(locale,hrOpen,hrClose,minCust,maxCust,cookiePerHr) {
 //that hour. Finally, it provides a total number of cookies purchased for the day.
 Store.prototype.genEstCookiesPerHour = function() {
     for (var i = 0; i < lateHour-earlyHour; i++)
-      this.estCookiesPerHour.push([earlyHour+i]);
+      this.estCookiesPerHour.push([earlyHour+i,0]);
     for (var i = 0; i < this.hourClose - this.hourOpen; i++) {
-      this.estCookiesPerHour[this.hourOpen-earlyHour+i].push(Math.round(random(this.minCustomers,this.maxCustomers) * this.cookiesPerCust));
+      this.estCookiesPerHour[this.hourOpen-earlyHour+i][1] = Math.round(random(this.minCustomers,this.maxCustomers) * this.cookiesPerCust);
       this.estTotalCookies += this.estCookiesPerHour[this.hourOpen-earlyHour+i][1];
     }
 }
@@ -64,6 +64,10 @@ Store.prototype.genEstCookiesPerHour = function() {
 //followed by a formatted version of the current values in the estCookiesPerHour array
 Store.prototype.renderSalesRow = function() {
     var trEl = document.createElement('tr');
+    var thEl = document.createElement('th');
+    thEl.textContent = this.storeLocale;
+    trEl.appendChild(thEl);
+
     for (var i = 0; i < lateHour-earlyHour; i++) {
       var tdEl = document.createElement('td');
       tdEl.textContent = this.estCookiesPerHour[i][1];
