@@ -21,7 +21,7 @@ function store(locale,hrOpen,hrClose,minCust,maxCust,cookiePerHr) {
   this.maxCustomers = maxCust;
   this.cookiesPerCust = cookiePerHr;
   this.estCookiesPerHour = [];
-
+  this.estTotalCookies = 0;
 }
 
 //store object prototype methods
@@ -46,8 +46,10 @@ store.prototype.hourToStd = function(hour) {
 //containing two elements. First element: a given hour of operation. Second element: the randomly generated number of
 //cookies purchases for that hour
 store.prototype.genEstCookiesPerHour = function() {
-    for (var i = 0; i < this.hourClose - this.hourOpen; i++)
+    for (var i = 0; i < this.hourClose - this.hourOpen; i++) {
       this.estCookiesPerHour.push([this.hourToStd(this.hourOpen + i), Math.round(this.genCustPerHour() * this.cookiesPerCust)]);
+      this.estTotalCookies += this.estCookiesPerHour[i][1];
+    }
 
     return this.estCookiesPerHour;
 }
@@ -59,7 +61,7 @@ store.prototype.printSales = function() {
     var list = '';
     for (var i = 0; i < this.estCookiesPerHour.length; i++)
       list += '<li>' + this.estCookiesPerHour[i][0] + ': ' + this.estCookiesPerHour[i][1] + ' cookies</li>\n';
-    ul.innerHTML = '<p class="ulp">' + this.storeLocale + '</p>\n' + list;
+    ul.innerHTML = '<p class="ulp">' + this.storeLocale + '</p>\n' + list + '<li>Total: ' + this.estTotalCookies + ' cookies</li>';
     document.getElementsByTagName('main')[0].appendChild(ul);
 }
 
