@@ -15,10 +15,14 @@ var arrStoreData = [  ['1st and Pike', 6, 20, 23, 65, 6.3],
 var earlyHour = 6;
 var lateHour = 20;
 
+//array of store hours for printing table headers
+var arrStoreHrs = [];
+for (var i = 0; i < lateHour - earlyHour; ++i) arrStoreHrs[i] = hourToStd(earlyHour + i);
+
 //Global helper functions
 //*******************************************************************************************************************
 //Converts from military time to standard time
-var hourToStd = function(hour) {
+function hourToStd(hour) {
   if (hour < 12) hour += 'am';
   else if (hour === 12) hour += 'pm';
   else {
@@ -31,6 +35,62 @@ var hourToStd = function(hour) {
 //Generates a random integer between min and max, inclusive
 var random = function(min,max) {
   return Math.round(Math.random() * (max - min) + min);
+};
+
+//Appends a header to table $tableId using elements in array $arr. Adds a header $addHead and final column $addLast if desired
+var renderArrAsHead = function(arr,tableId,addHead,addLast) {
+  var trEl = document.createElement('tr');
+
+  //Create header column for row using addHead if applicable
+  if (addHead) {
+    var thEl = document.createElement('th');
+    thEl.textContent = addHead;
+    trEl.appendChild(thEl);
+  }
+
+  //Generate <th>'s for header
+  for (var i = 0; i < arr.length; ++i) {
+    var thEl = document.createElement('th');
+    thEl.textContent = arr[i];
+    trEl.appendChild(thEl);
+  }
+
+  //Create ending column using addLast if applicable
+  if (addLast) {
+    var thEl = document.createElement('th');
+    thEl.textContent = addLast;
+    trEl.appendChild(thEl);
+  }
+
+  document.getElementById(tableId).appendChild(trEl);
+};
+
+//Appends a row to table $tableId using elements in array $arr. Adds a header $addHead and final column $addLast if desired
+var renderArrAsRow = function(arr,tableId,addHead,addLast) {
+  var trEl = document.createElement('tr');
+
+  //Create header column for row using addHead if applicable
+  if (addHead) {
+    var thEl = document.createElement('th');
+    thEl.textContent = addHead;
+    trEl.appendChild(thEl);
+  }
+
+  //Generate <td>'s for row
+  for (var i = 0; i < arr.length; ++i) {
+    var tdEl = document.createElement('td');
+    tdEl.textContent = arr[i];
+    trEl.appendChild(tdEl);
+  }
+
+  //Create ending column using addLast if applicable
+  if (addLast) {
+    var tdEl = document.createElement('td');
+    tdEl.textContent = addLast;
+    trEl.appendChild(tdEl);
+  }
+
+  document.getElementById(tableId).appendChild(trEl);
 };
 
 //Store constructor function
@@ -67,39 +127,11 @@ Store.prototype.simCust = function() {
     console.log(i);
     this.custPerHour[i] = random(this.minCustomers,this.maxCustomers);
     this.cookiesPerHour[i] = Math.ceil(this.custPerHour[i] * this.cookiesPerCust);
-    this.tossPerHour[i] = Math.ceil(this.custPerHour[i] / this.tossPerCust);
+    this.tossPerHour[i] = Math.ceil(this.custPerHour[i] / this.custPerToss);
     if (this.tossPerHour[i] < this.minToss) this.tossPerHour[i] = this.minToss;
     this.totalCust += this.custPerHour[i];
     this.totalCookies += this.cookiesPerHour[i];
   }
-};
-
-//Appends a row to table $tableId using elements in array $arr. Adds a header $addHead and final column $addLast if desired
-Store.prototype.renderArrAsRow = function(arr,tableId,addHead,addLast) {
-  var trEl = document.createElement('tr');
-
-  //Create header column for row using addHead if applicable
-  if (addHead) {
-    var thEl = document.createElement('th');
-    thEl.textContent = addHead;
-    trEl.appendChild(thEl);
-  }
-
-  //Generate <td>'s for row
-  for (var i = 0; i < arr.length; ++i) {
-    var tdEl = document.createElement('td');
-    tdEl.textContent = arr[i];
-    trEl.appendChild(tdEl);
-  }
-
-  //Create ending column using addLast if applicable
-  if (addLast) {
-    var tdEl = document.createElement('td');
-    tdEl.textContent = addLast;
-    trEl.appendChild(tdEl);
-  }
-
-  document.getElementById(tableId).appendChild(trEl);
 };
 
 //Instantiate store objects and load them into array
