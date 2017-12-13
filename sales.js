@@ -2,27 +2,11 @@
 
 'use strict';
 
-//Create a <th> header for sales table
-var tbEl = document.getElementById('sales_table');
-var thEl = document.createElement('th');
-tbEl.appendChild(thEl);
-
-for (var i = earlyHour; i < lateHour; i++) {
-  thEl = document.createElement('th');
-  thEl.textContent = hourToStd(i);
-  tbEl.appendChild(thEl);
+for (var i = 0; i < arrStores.length; ++i) {
+  arrStores[i].renderArrAsRow(arrStores[i].cookiesPerHour,'sales_table',arrStores[i].storeLocale,arrStores[i].totalCookies);
 }
 
-thEl = document.createElement('th');
-thEl.textContent = 'Daily Total';
-tbEl.appendChild(thEl);
-
-//Fill sales table rows
-for (var i = 0; i < arrStores.length; i++) {
-  arrStores[i].genEstCookiesPerHour();
-  arrStores[i].renderSalesRow();
-}
-
+/*
 //Totals rows
 var trEl = document.createElement('tr');
 
@@ -54,3 +38,4 @@ trEl.appendChild(tdEl);
 
 //Append totals row to sales table
 tbEl.appendChild(trEl);
+*/
