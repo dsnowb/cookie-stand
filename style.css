@@ -10,7 +10,6 @@ body {
 
 header {
   width:960px;
-  height:250px;
   margin: 0 auto;
   text-align: center;
   background-color: #fff;
@@ -21,9 +20,8 @@ header img {
 }
 
 header h1 {
-  padding-top: 15px;
+  padding-top: 20px;
   font-size: 72px;
-  //font-weight: bold;
   font-family: Sacramento;
   background-color: #4e2422;
   color: #ab9c73;
@@ -36,25 +34,6 @@ main {
   background-color: #fff;
 }
 
-main section {
-  clear:both;
-  width: 600px;
-  margin: 0 auto;
-}
-
-section:first-child img {
-  float: left;
-  margin: 0px 10px 20px 0px;
-}
-
-section:first-child p {
-  clear: both;
-}
-
-main section:last-child {
-  text-align: center;
-}
-
 main h2 {
   margin: 20px auto;
   text-align: center;
@@ -62,6 +41,52 @@ main h2 {
   font-weight: bold;
   text-decoration: underline;
   color: #444;
+}
+
+section:first-child {
+  width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+section:first-child p {
+  margin: 40px 0 60px 0;
+  clear: left;
+  text-align: left;
+}
+
+p:nth-child(2) img {
+  float: left;
+  margin-right: 30px;
+}
+
+p:nth-child(3) img {
+  float: right;
+  margin-left: 30px;
+}
+
+figure {
+  margin-top: 50px;
+}
+
+figcaption {
+  color: #444;
+  font-family: Georgia;
+  font-style: italic;
+  font-size: 14px;
+}
+
+section:nth-child(2) {
+  margin: 0 auto;
+  text-align: center;
+}
+
+section:nth-child(4) {
+  clear:both;
+}
+
+section:last-child {
+  text-align: center;
 }
 
 footer {
@@ -73,26 +98,6 @@ footer {
   text-align: center;
   color: #ac9d74;
   font-family: Times, serif;
-}
-
-.ulp {
-  font-family: Helvetica;
-  font-weight: bold;
-  text-decoration: underline;
-}
-
-ul {
-  text-align: center;
-  font-family: Helvetica;
-  margin-bottom: 30px;
-}
-
-ul li {
-  list-style-type: '-';
-}
-
-.highlight {
-  font-family: Roboto;
 }
 
 a {
@@ -114,6 +119,11 @@ th {
   text-align: right;
 }
 
+tr:nth-child(even) td {
+  background-color: #7e5452;
+  color: #2e0402
+}
+
 td {
   width: 25px;
   height: 20px;
@@ -124,24 +134,17 @@ td {
   color: #ac9d74;
 }
 
-tr:nth-child(even) td {
-  background-color: #7e5452;
-  color: #2e0402
-}
-
 #hourloc {
+  clear: both;
   text-align: center;
-  width: 920px;
+  width: 900px;
+  margin-left: 30px;
 }
 
 #hourloc li {
   display: inline-block;
   width: 125px;
   margin-bottom: 30px;
-}
-
-section:nth-child(3) {
-  clear:both;
 }
 
 #hourloc img:nth-child(2) {
