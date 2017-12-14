@@ -1,4 +1,8 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Sacramento');
+* {
+  //outline: 1px dotted orange;
+}
 
 body {
   background-color: #ab9c73;
@@ -9,16 +13,19 @@ header {
   height:250px;
   margin: 0 auto;
   text-align: center;
-  background-color: #4e2422;
+  background-color: #fff;
 }
 
 header img {
-  margin-top: 60px;
+  margin-top: 10px;
 }
 
 header h1 {
-  font-size: 48px;
-  font-weight: bold;
+  padding-top: 15px;
+  font-size: 72px;
+  //font-weight: bold;
+  font-family: Sacramento;
+  background-color: #4e2422;
   color: #ab9c73;
 }
 
@@ -30,8 +37,18 @@ main {
 }
 
 main section {
+  clear:both;
   width: 600px;
   margin: 0 auto;
+}
+
+section:first-child img {
+  float: left;
+  margin: 0px 10px 20px 0px;
+}
+
+section:first-child p {
+  clear: both;
 }
 
 main section:last-child {
@@ -88,16 +105,51 @@ a:hover {
 
 table {
   margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 5px;
 }
 
 th {
   font-weight: bold;
+  text-align: right;
 }
 
 td {
+  width: 25px;
+  height: 20px;
   padding: 10px;
-  border: 2px solid #fff;
+  border: 2px solid #000;
   background-color: #4e2422;
   text-align: center;
   color: #ac9d74;
+}
+
+tr:nth-child(even) td {
+  background-color: #7e5452;
+  color: #2e0402
+}
+
+#hourloc {
+  text-align: center;
+  width: 920px;
+}
+
+#hourloc li {
+  display: inline-block;
+  width: 125px;
+  margin-bottom: 30px;
+}
+
+section:nth-child(3) {
+  clear:both;
+}
+
+#hourloc img:nth-child(2) {
+  float: left;
+}
+
+#hourloc img:nth-child(3) {
+  position: relative;
+  top: -10px;
+  float: right;
 }

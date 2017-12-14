@@ -18,21 +18,30 @@ var arrTotals = function(arr,addSum) {
   return arrTotals;
 };
 
+//renders into a customer per hour table $tableId
+var renderCustTable = function(tableId) {
+  renderArrAsHead(arrStoreHrs,tableId,' ','Totals');
+  for (var i = 0; i < arrStores.length; ++i)
+    renderArrAsRow(arrStores[i].custPerHour,tableId,arrStores[i].locale,arrStores[i].totalCust);
+  renderArrAsRow(arrTotals('custPerHour',1),tableId,'Totals','');
+};
+
 //renders into a cookie sales table $tableId
 var renderSalesTable = function(tableId) {
   renderArrAsHead(arrStoreHrs,tableId,' ','Totals');
   for (var i = 0; i < arrStores.length; ++i)
-    renderArrAsRow(arrStores[i].cookiesPerHour,tableId,arrStores[i].storeLocale,arrStores[i].totalCookies);
-  renderArrAsRow(arrTotals('cookiesPerHour',1), tableId,'Totals: ','');
+    renderArrAsRow(arrStores[i].cookiesPerHour,tableId,arrStores[i].locale,arrStores[i].totalCookies);
+  renderArrAsRow(arrTotals('cookiesPerHour',1), tableId,'Totals','');
 };
 
 //render into a tossers required per store per hour table $tableId
 var renderTosserTable = function(tableId) {
   renderArrAsHead(arrStoreHrs,tableId,' ','');
   for (var i = 0; i < arrStores.length; ++i)
-    renderArrAsRow(arrStores[i].tossPerHour,tableId,arrStores[i].storeLocale,'');
-  renderArrAsRow(arrTotals('tossPerHour',0),tableId,'Totals:','');
+    renderArrAsRow(arrStores[i].tossPerHour,tableId,arrStores[i].locale,'');
+  renderArrAsRow(arrTotals('tossPerHour',0),tableId,'Totals','');
 };
 
+renderCustTable('customer_table');
 renderSalesTable('sales_table');
 renderTosserTable('tosser_table');

@@ -3,7 +3,7 @@
 //Data and objects
 //*******************************************************************************************************************
 //specific store data array
-//array data is of the form [store location, opening hour in military time, closing hour in military time, minimum
+//array data is of the form [store location, address, opening hour in military time, closing hour in military time, minimum
 //number of customers, maximum number of customers, average cookies per customer]
 var arrStoreData = [  ['1st and Pike', 6, 20, 23, 65, 6.3],
                       ['SeaTac Airport', 6, 20, 3, 24, 1.2],
@@ -12,8 +12,12 @@ var arrStoreData = [  ['1st and Pike', 6, 20, 23, 65, 6.3],
                       ['Alki', 6, 20, 2, 16, 4.6] ];
 
 //The earliest and latest store hours among all locations
-var earlyHour = 6;
-var lateHour = 20;
+var earlyHour = arrStoreData[0][1];
+var lateHour = arrStoreData[0][2];
+for (var i = 1; i < arrStoreData.length; ++i) {
+  if (arrStoreData[i][1] < earlyHour) earlyHour = arrStoreData[i][1];
+  if (arrStoreData[i][2] > lateHour) lateHour = arrStoreData[i][2];
+}
 
 //array of store hours for printing table headers
 var arrStoreHrs = [];
@@ -96,7 +100,7 @@ var renderArrAsRow = function(arr,tableId,addHead,addLast) {
 //Store constructor function
 //*******************************************************************************************************************
 var Store = function(locale,hrOpen,hrClose,minCust,maxCust,cookiePerHr) {
-  this.storeLocale = locale;
+  this.locale = locale;
   this.hourOpen = hrOpen;
   this.hourClose = hrClose;
   this.minCustomers = minCust;
