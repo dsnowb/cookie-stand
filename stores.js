@@ -1,9 +1,10 @@
 'use strict';
 
-//specific store data array
-//array data is of the form [store location, opening hour in military time, closing hour in military time, minimum
-//number of customers, maximum number of customers, average cookies per customer]
+//Data and objects
 //*******************************************************************************************************************
+//specific store data array
+//array data is of the form [store location, address, opening hour in military time, closing hour in military time, minimum
+//number of customers, maximum number of customers, average cookies per customer]
 var arrStoreData = [  ['1st and Pike', 6, 20, 23, 65, 6.3],
                       ['SeaTac Airport', 6, 20, 3, 24, 1.2],
                       ['Seattle Center', 6, 20, 11, 38, 3.7],
@@ -11,13 +12,21 @@ var arrStoreData = [  ['1st and Pike', 6, 20, 23, 65, 6.3],
                       ['Alki', 6, 20, 2, 16, 4.6] ];
 
 //The earliest and latest store hours among all locations
-var earlyHour = 6;
-var lateHour = 20;
+var earlyHour = arrStoreData[0][1];
+var lateHour = arrStoreData[0][2];
+for (var i = 1; i < arrStoreData.length; ++i) {
+  if (arrStoreData[i][1] < earlyHour) earlyHour = arrStoreData[i][1];
+  if (arrStoreData[i][2] > lateHour) lateHour = arrStoreData[i][2];
+}
+
+//array of store hours for printing table headers
+var arrStoreHrs = [];
+for (var i = 0; i < lateHour - earlyHour; ++i) arrStoreHrs[i] = hourToStd(earlyHour + i);
 
 //Global helper functions
 //*******************************************************************************************************************
 //Converts from military time to standard time
-var hourToStd = function(hour) {
+function hourToStd(hour) {
   if (hour < 12) hour += 'am';
   else if (hour === 12) hour += 'pm';
   else {
@@ -32,60 +41,108 @@ var random = function(min,max) {
   return Math.round(Math.random() * (max - min) + min);
 };
 
+//Appends a header to table $tableId using elements in array $arr. Adds a header $addHead and final column $addLast if desired
+var renderArrAsHead = function(arr,tableId,addHead,addLast) {
+  var trEl = document.createElement('tr');
+
+  //Create header column for row using addHead if applicable
+  if (addHead) {
+    var thEl = document.createElement('th');
+    thEl.textContent = addHead;
+    trEl.appendChild(thEl);
+  }
+
+  //Generate <th>'s for header
+  for (var i = 0; i < arr.length; ++i) {
+    var thEl = document.createElement('th');
+    thEl.textContent = arr[i];
+    trEl.appendChild(thEl);
+  }
+
+  //Create ending column using addLast if applicable
+  if (addLast) {
+    var thEl = document.createElement('th');
+    thEl.textContent = addLast;
+    trEl.appendChild(thEl);
+  }
+
+  document.getElementById(tableId).appendChild(trEl);
+};
+
+//Appends a row to table $tableId using elements in array $arr. Adds a header $addHead and final column $addLast if desired
+var renderArrAsRow = function(arr,tableId,addHead,addLast) {
+  var trEl = document.createElement('tr');
+
+  //Create header column for row using addHead if applicable
+  if (addHead) {
+    var thEl = document.createElement('th');
+    thEl.textContent = addHead;
+    trEl.appendChild(thEl);
+  }
+
+  //Generate <td>'s for row
+  for (var i = 0; i < arr.length; ++i) {
+    var tdEl = document.createElement('td');
+    tdEl.textContent = arr[i];
+    trEl.appendChild(tdEl);
+  }
+
+  //Create ending column using addLast if applicable
+  if (addLast) {
+    var tdEl = document.createElement('td');
+    tdEl.textContent = addLast;
+    trEl.appendChild(tdEl);
+  }
+
+  document.getElementById(tableId).appendChild(trEl);
+};
+
 //Store constructor function
 //*******************************************************************************************************************
-function Store(locale,hrOpen,hrClose,minCust,maxCust,cookiePerHr) {
-  this.storeLocale = locale;
+var Store = function(locale,hrOpen,hrClose,minCust,maxCust,cookiePerHr) {
+  this.locale = locale;
   this.hourOpen = hrOpen;
   this.hourClose = hrClose;
   this.minCustomers = minCust;
   this.maxCustomers = maxCust;
   this.cookiesPerCust = cookiePerHr;
-  this.estCookiesPerHour = [];
-  this.estTotalCookies = 0;
+  this.minToss = 2;
+  this.custPerToss = 20;
+  this.custPerHour = [];
+  this.cookiesPerHour = [];
+  this.tossPerHour = [];
+  this.totalCust = 0;
+  this.totalCookies = 0;
 }
 
 //Store prototype methods
 //*******************************************************************************************************************
-//Generates a random number of cookies sold for each hour of operation, fills the estCookiesPerHour array with two elements.
-//First: a given hour of operation. Second: the randomly generated number of cookies purchases for
-//that hour. Finally, it provides a total number of cookies purchased for the day.
-Store.prototype.genEstCookiesPerHour = function() {
-  //Create blank array
-  for (var i = 0; i < lateHour - earlyHour; i++)
-    this.estCookiesPerHour.push([earlyHour + i,0]);
-  //Load applicable array elements
-  for (var i = 0; i < this.hourClose - this.hourOpen; i++) {
-    this.estCookiesPerHour[this.hourOpen - earlyHour + i][1] = Math.round(random(this.minCustomers,this.maxCustomers) * this.cookiesPerCust);
-    this.estTotalCookies += this.estCookiesPerHour[this.hourOpen - earlyHour + i][1];
+//Simulates the number of customers for this store object for every hour of all stores' operations
+//Uses that number of customers to build associated arrays for cookies sold per hour and tossers required per hour
+Store.prototype.simCust = function() {
+  //size and initialize arrays
+  for (var i = 0; i < lateHour - earlyHour; ++i) {
+    this.custPerHour.push(0);
+    this.cookiesPerHour.push(0);
+    this.tossPerHour.push(0);
+  }
+  //load applicable array elements
+  for (var i = this.hourOpen - earlyHour; i < this.hourClose - earlyHour; ++i) {
+    console.log(i);
+    this.custPerHour[i] = random(this.minCustomers,this.maxCustomers);
+    this.cookiesPerHour[i] = Math.ceil(this.custPerHour[i] * this.cookiesPerCust);
+    this.tossPerHour[i] = Math.ceil(this.custPerHour[i] / this.custPerToss);
+    if (this.tossPerHour[i] < this.minToss) this.tossPerHour[i] = this.minToss;
+    this.totalCust += this.custPerHour[i];
+    this.totalCookies += this.cookiesPerHour[i];
   }
 };
 
-//Generates a table row including the Store.storeLocale as a <th> header for the row, followed by cookie totals for each hour,
-//followed by Store.estTotalCookies as the final <td> in the row as a daily cookie total
-Store.prototype.renderSalesRow = function() {
-  //Create <th> header for row
-  var trEl = document.createElement('tr');
-  var thEl = document.createElement('th');
-  thEl.textContent = this.storeLocale;
-  trEl.appendChild(thEl);
-
-  //Generate <td>'s with the store's hourly cookie totals
-  for (var i = 0; i < lateHour - earlyHour; i++) {
-    var tdEl = document.createElement('td');
-    tdEl.textContent = this.estCookiesPerHour[i][1];
-    trEl.appendChild(tdEl);
-  }
-  //Create the daily total <td>
-  tdEl = document.createElement('td');
-  tdEl.textContent = this.estTotalCookies;
-  trEl.appendChild(tdEl);
-  //Append the row to the table with id attribute 'sales_table
-  document.getElementById('sales_table').appendChild(trEl);
-};
-
-//Generate store objects and put them into array for use by associated scripts
+//Instantiate store objects and load them into array
 //*******************************************************************************************************************
 var arrStores = [];
-for (var i = 0; i < arrStoreData.length; i++)
+for (var i = 0; i < arrStoreData.length; i++) {
   arrStores.push(new Store(arrStoreData[i][0], arrStoreData[i][1], arrStoreData[i][2], arrStoreData[i][3], arrStoreData[i][4], arrStoreData[i][5]));
+  arrStores[i].simCust();
+}
+

@@ -2,55 +2,46 @@
 
 'use strict';
 
-//Create a <th> header for sales table
-var tbEl = document.getElementById('sales_table');
-var thEl = document.createElement('th');
-tbEl.appendChild(thEl);
-
-for (var i = earlyHour; i < lateHour; i++) {
-  thEl = document.createElement('th');
-  thEl.textContent = hourToStd(i);
-  tbEl.appendChild(thEl);
-}
-
-thEl = document.createElement('th');
-thEl.textContent = 'Daily Total';
-tbEl.appendChild(thEl);
-
-//Fill sales table rows
-for (var i = 0; i < arrStores.length; i++) {
-  arrStores[i].genEstCookiesPerHour();
-  arrStores[i].renderSalesRow();
-}
-
-//Totals rows
-var trEl = document.createElement('tr');
-
-//Create header for totals row
-thEl = document.createElement('th');
-thEl.textContent = 'All Stores: ';
-trEl.appendChild(thEl);
-
-//Fill totals row <td>'s
-var tdEl;
-for (var i = 0; i < lateHour - earlyHour; i++) {
-  var totCookiesPerHour = 0;
-  for (var j = 0; j < arrStores.length; j++) {
-    totCookiesPerHour += arrStores[j].estCookiesPerHour[i][1];
+//calculates the hourly totals for all stores' array $arr and optionally adds a total for all hourly totals by setting addSum
+//returns the result as an array
+var arrTotals = function(arr,addSum) {
+  var arrTotals = [];
+  var totDaily = 0;
+  for (var i = 0; i < arrStoreHrs.length; ++i) {
+    var totPerHour = 0;
+    for (var j = 0; j < arrStores.length; ++j) totPerHour += arrStores[j][arr][i];
+    arrTotals[i] = totPerHour;
+    totDaily += totPerHour;
   }
+  if (addSum) arrTotals.push(totDaily);
 
-  tdEl = document.createElement('td');
-  tdEl.textContent = totCookiesPerHour;
-  trEl.appendChild(tdEl);
-}
+  return arrTotals;
+};
 
-//Calculate the daily total for all stores and append to total's row as its last <td>
-var totalCookies = 0;
-for (var i = 0; i < arrStores.length; i++) totalCookies += arrStores[i].estTotalCookies;
+//renders into a customer per hour table $tableId
+var renderCustTable = function(tableId) {
+  renderArrAsHead(arrStoreHrs,tableId,' ','Totals');
+  for (var i = 0; i < arrStores.length; ++i)
+    renderArrAsRow(arrStores[i].custPerHour,tableId,arrStores[i].locale,arrStores[i].totalCust);
+  renderArrAsRow(arrTotals('custPerHour',1),tableId,'Totals','');
+};
 
-tdEl = document.createElement('td');
-tdEl.textContent = totalCookies;
-trEl.appendChild(tdEl);
+//renders into a cookie sales table $tableId
+var renderSalesTable = function(tableId) {
+  renderArrAsHead(arrStoreHrs,tableId,' ','Totals');
+  for (var i = 0; i < arrStores.length; ++i)
+    renderArrAsRow(arrStores[i].cookiesPerHour,tableId,arrStores[i].locale,arrStores[i].totalCookies);
+  renderArrAsRow(arrTotals('cookiesPerHour',1), tableId,'Totals','');
+};
 
-//Append totals row to sales table
-tbEl.appendChild(trEl);
+//render into a tossers required per store per hour table $tableId
+var renderTosserTable = function(tableId) {
+  renderArrAsHead(arrStoreHrs,tableId,' ','');
+  for (var i = 0; i < arrStores.length; ++i)
+    renderArrAsRow(arrStores[i].tossPerHour,tableId,arrStores[i].locale,'');
+  renderArrAsRow(arrTotals('tossPerHour',0),tableId,'Totals','');
+};
+
+renderCustTable('customer_table');
+renderSalesTable('sales_table');
+renderTosserTable('tosser_table');
