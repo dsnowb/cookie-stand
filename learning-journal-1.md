@@ -14,3 +14,7 @@ I actually learned something pretty important today. The lesson came as I was lo
 13 Dec 17
 ---
 Well, today I think the big takeaway lesson was that I should probably not attempt to bite off more than I can chew. By which I mean I was feeling fairly ambitious on what I wanted to accomplish, but ran into a bit of unexpected trouble, was unfortunately delayed, and ended up spending pretty much all day on this up until bed time, which is definitely not what I would have preferred. Get core functionality done first - or whatever milestones you're supposed to hit - then go back and work on improvements, not the other way around!
+
+14 Dec 17
+---
+Today went fairly well, though I was tired - I think from yesterday. Actually solving the problem that needed to be solved today re:form input went off without a hitch, though I am (as predicted) developing a dislike for dealing with CSS. I did run into a bug after implementing the forms such that the tables would not render properly if I gave the new stores hours outside of the hours as originally set by the pre-loaded array. Basically, I would need to go back and add array elements in the appropriate locations for every array of every object - something that I'm confident that I could do, but the code wouldn't be pretty. It would have been better to give consideration to that *before* I decided to put stuff into arrays. Basically, what will these arrays need to look like in order to accomplish anything that I might need to do with them easily and efficiently. Again, it comes down to proper planning. Good lesson.
