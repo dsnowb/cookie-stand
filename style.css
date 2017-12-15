@@ -40,7 +40,7 @@ main h2 {
   font-size: 36px;
   font-weight: bold;
   text-decoration: underline;
-  color: #444;
+  color: #2e0402;
 }
 
 section:first-child {
@@ -155,4 +155,62 @@ td {
   position: relative;
   top: -10px;
   float: right;
+}
+
+form {
+  position: fixed;
+  top: 350px;
+  left: 0px;
+  width: 450px;
+  text-align: center;
+}
+
+form h4 {
+  margin-bottom: 20px;
+  font-size: 36px;
+  color: #2e0402;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+fieldset div:first-child {
+  width: 200px;
+  float: left;
+  margin-left: 20px;
+  text-align: right;
+}
+
+fieldset div:nth-child(2) {
+  width: 200px;
+  float: right;
+  margin-right: 20px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 20px;
+  font-family: Geneva;
+  font-size: 16px;
+  font-weight: bold;
+  color: #2e0402;
+}
+
+input {
+  display: block;
+  margin-bottom: 15px;
+}
+
+input[type="submit"] {
+  cursor: pointer;
+  display: inline-block;
+  background-color: #4e2422;
+  padding: 10px 20px;
+  border: 0; 
+  color: #ac9d74;
+  font-weight: bold;
+}
+
+input[type="num"] {
+  width: 60px;
 }

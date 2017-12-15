@@ -42,6 +42,34 @@ var renderTosserTable = function(tableId) {
   renderArrAsRow(arrTotals('tossPerHour',0),tableId,'Totals','');
 };
 
-renderCustTable('customer_table');
-renderSalesTable('sales_table');
-renderTosserTable('tosser_table');
+function renderTables() {
+  renderCustTable('customer_table');
+  renderSalesTable('sales_table');
+  renderTosserTable('tosser_table');
+}
+
+function unrenderTables() {
+  document.getElementById('customer_table').innerHTML = '';
+  document.getElementById('sales_table').innerHTML = '';
+  document.getElementById('tosser_table').innerHTML = '';
+}
+
+//Right now this can't properly render the table if store hours are chosen outside initial earlyHour and lateHour
+function addStore(e) {
+  e.preventDefault();
+  var locale = e.target.name.value;
+  var hrOpen = parseInt(e.target.open.value);
+  var hrClose = parseInt(e.target.close.value);
+  var minCust = parseInt(e.target.minC.value);
+  var maxCust = parseInt(e.target.maxC.value);
+  var cookiesPerCust = parseFloat(e.target.cpc.value);
+  arrStores.push(new Store(locale,hrOpen,hrClose,minCust,maxCust,cookiesPerCust));
+//  localStorage.setItem('localArrStores', JSON.stringify(arrStoreData));
+  unrenderTables();
+  renderTables();
+  addStoreForm.reset();
+}
+  
+renderTables();
+var addStoreForm = document.getElementById('add_store');
+addStoreForm.addEventListener('submit', function(e) {addStore(e)});
