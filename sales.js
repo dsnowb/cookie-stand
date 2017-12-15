@@ -55,6 +55,7 @@ function unrenderTables() {
 }
 
 //Right now this can't properly render the table if store hours are chosen outside initial earlyHour and lateHour
+//Tables are rendered right after page reload.
 function addStore(e) {
   e.preventDefault();
   var locale = e.target.name.value;
@@ -64,7 +65,8 @@ function addStore(e) {
   var maxCust = parseInt(e.target.maxC.value);
   var cookiesPerCust = parseFloat(e.target.cpc.value);
   arrStores.push(new Store(locale,hrOpen,hrClose,minCust,maxCust,cookiesPerCust));
-  localStorage.setItem('localArrStores', JSON.stringify(arrStores));
+  arrStoreData.push([locale,hrOpen,hrClose,minCust,maxCust,cookiesPerCust]);
+  localStorage.setItem('localArrStoreData', JSON.stringify(arrStoreData));
   unrenderTables();
   renderTables();
   addStoreForm.reset();
