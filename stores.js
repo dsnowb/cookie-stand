@@ -5,11 +5,20 @@
 //specific store data array
 //array data is of the form [store location, address, opening hour in military time, closing hour in military time, minimum
 //number of customers, maximum number of customers, average cookies per customer]
+
+//var arrStoreData = [];
+//if (!localStorage.getItem('localArrStores')) {
 var arrStoreData = [  ['1st and Pike', 6, 20, 23, 65, 6.3],
                       ['SeaTac Airport', 6, 20, 3, 24, 1.2],
                       ['Seattle Center', 6, 20, 11, 38, 3.7],
                       ['Capitol Hill', 6, 20, 20, 38, 2.3],
                       ['Alki', 6, 20, 2, 16, 4.6] ];
+
+//  localStorage.setItem('localArrStores',JSON.stringify(arrStoreData));
+//  console.log('set local storage for 1st time');
+//}
+
+//arrStoreData = JSON.parse(localStorage.getItem('localArrStores'));
 
 //The earliest and latest store hours among all locations
 var earlyHour = arrStoreData[0][1];
@@ -99,13 +108,13 @@ var renderArrAsRow = function(arr,tableId,addHead,addLast) {
 
 //Store constructor function
 //*******************************************************************************************************************
-var Store = function(locale,hrOpen,hrClose,minCust,maxCust,cookiePerHr) {
+var Store = function(locale,hrOpen,hrClose,minCust,maxCust,cookiesPerCust) {
   this.locale = locale;
   this.hourOpen = hrOpen;
   this.hourClose = hrClose;
   this.minCustomers = minCust;
   this.maxCustomers = maxCust;
-  this.cookiesPerCust = cookiePerHr;
+  this.cookiesPerCust = cookiesPerCust;
   this.minToss = 2;
   this.custPerToss = 20;
   this.custPerHour = [];
@@ -113,36 +122,42 @@ var Store = function(locale,hrOpen,hrClose,minCust,maxCust,cookiePerHr) {
   this.tossPerHour = [];
   this.totalCust = 0;
   this.totalCookies = 0;
+
+  //Simulates the number of customers for this store object for every hour of all stores' operations
+  //Uses that number of customers to build associated arrays for cookies sold per hour and tossers required per hour
+  this.simCust = function() {
+    //size and initialize arrays
+    for (var i = 0; i < lateHour - earlyHour; ++i) {
+      this.custPerHour.push(0);
+      this.cookiesPerHour.push(0);
+      this.tossPerHour.push(0);
+    }
+    /*
+    for (var i = 0; i < 24; ++i) {
+      this.custPerHour.push('');
+      this.cookiesPerHour.push('');
+      this.tossPerHour.push('');
+    }
+    */
+    //load applicable array elements
+    for (var i = this.hourOpen - earlyHour; i < this.hourClose - earlyHour; ++i) {
+      this.custPerHour[i] = random(this.minCustomers,this.maxCustomers);
+      this.cookiesPerHour[i] = Math.ceil(this.custPerHour[i] * this.cookiesPerCust);
+      this.tossPerHour[i] = Math.ceil(this.custPerHour[i] / this.custPerToss);
+      if (this.tossPerHour[i] < this.minToss) this.tossPerHour[i] = this.minToss;
+      this.totalCust += this.custPerHour[i];
+      this.totalCookies += this.cookiesPerHour[i];
+    }
+  };
+  
+  this.simCust();
 }
 
-//Store prototype methods
-//*******************************************************************************************************************
-//Simulates the number of customers for this store object for every hour of all stores' operations
-//Uses that number of customers to build associated arrays for cookies sold per hour and tossers required per hour
-Store.prototype.simCust = function() {
-  //size and initialize arrays
-  for (var i = 0; i < lateHour - earlyHour; ++i) {
-    this.custPerHour.push(0);
-    this.cookiesPerHour.push(0);
-    this.tossPerHour.push(0);
-  }
-  //load applicable array elements
-  for (var i = this.hourOpen - earlyHour; i < this.hourClose - earlyHour; ++i) {
-    console.log(i);
-    this.custPerHour[i] = random(this.minCustomers,this.maxCustomers);
-    this.cookiesPerHour[i] = Math.ceil(this.custPerHour[i] * this.cookiesPerCust);
-    this.tossPerHour[i] = Math.ceil(this.custPerHour[i] / this.custPerToss);
-    if (this.tossPerHour[i] < this.minToss) this.tossPerHour[i] = this.minToss;
-    this.totalCust += this.custPerHour[i];
-    this.totalCookies += this.cookiesPerHour[i];
-  }
-};
 
 //Instantiate store objects and load them into array
 //*******************************************************************************************************************
 var arrStores = [];
 for (var i = 0; i < arrStoreData.length; i++) {
   arrStores.push(new Store(arrStoreData[i][0], arrStoreData[i][1], arrStoreData[i][2], arrStoreData[i][3], arrStoreData[i][4], arrStoreData[i][5]));
-  arrStores[i].simCust();
 }
 
