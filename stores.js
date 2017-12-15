@@ -6,19 +6,11 @@
 //array data is of the form [store location, address, opening hour in military time, closing hour in military time, minimum
 //number of customers, maximum number of customers, average cookies per customer]
 
-//var arrStoreData = [];
-//if (!localStorage.getItem('localArrStores')) {
 var arrStoreData = [  ['1st and Pike', 6, 20, 23, 65, 6.3],
-                      ['SeaTac Airport', 6, 20, 3, 24, 1.2],
-                      ['Seattle Center', 6, 20, 11, 38, 3.7],
-                      ['Capitol Hill', 6, 20, 20, 38, 2.3],
-                      ['Alki', 6, 20, 2, 16, 4.6] ];
-
-//  localStorage.setItem('localArrStores',JSON.stringify(arrStoreData));
-//  console.log('set local storage for 1st time');
-//}
-
-//arrStoreData = JSON.parse(localStorage.getItem('localArrStores'));
+                  ['SeaTac Airport', 6, 20, 3, 24, 1.2],
+                  ['Seattle Center', 6, 20, 11, 38, 3.7],
+                  ['Capitol Hill', 6, 20, 20, 38, 2.3],
+                  ['Alki', 6, 20, 2, 16, 4.6] ];
 
 //The earliest and latest store hours among all locations
 var earlyHour = arrStoreData[0][1];
@@ -157,7 +149,12 @@ var Store = function(locale,hrOpen,hrClose,minCust,maxCust,cookiesPerCust) {
 //Instantiate store objects and load them into array
 //*******************************************************************************************************************
 var arrStores = [];
-for (var i = 0; i < arrStoreData.length; i++) {
-  arrStores.push(new Store(arrStoreData[i][0], arrStoreData[i][1], arrStoreData[i][2], arrStoreData[i][3], arrStoreData[i][4], arrStoreData[i][5]));
+if (!localStorage.getItem('localArrStores')) {
+  for (var i = 0; i < arrStoreData.length; i++)
+    arrStores.push(new Store(arrStoreData[i][0], arrStoreData[i][1], arrStoreData[i][2], arrStoreData[i][3], arrStoreData[i][4], arrStoreData[i][5]));
+  
+  localStorage.setItem('localArrStores',JSON.stringify(arrStores));
 }
+
+arrStores = JSON.parse(localStorage.getItem('localArrStores'));
 

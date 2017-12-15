@@ -64,7 +64,7 @@ function addStore(e) {
   var maxCust = parseInt(e.target.maxC.value);
   var cookiesPerCust = parseFloat(e.target.cpc.value);
   arrStores.push(new Store(locale,hrOpen,hrClose,minCust,maxCust,cookiesPerCust));
-//  localStorage.setItem('localArrStores', JSON.stringify(arrStoreData));
+  localStorage.setItem('localArrStores', JSON.stringify(arrStores));
   unrenderTables();
   renderTables();
   addStoreForm.reset();
